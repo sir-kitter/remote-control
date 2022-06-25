@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "baseUrl": "./",
+    "outDir": "./dst",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "skipLibCheck": true
+  },
+	"exclude": [
+		"node_modules",
+		"dst",
+		"**/*spec.ts",
+	],
+	"include": [
+		"src",
+	]
+}
