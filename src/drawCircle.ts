@@ -1,21 +1,23 @@
 import robot from 'robotjs'
 
+import { adjustCoords } from './utils'
+
 
 export const drawCircle = async (radius: number) => {
-	const { mx, my } = robot.getMousePos()
+  const { mx, my } = robot.getMousePos()
 
-	robot.moveMouseSmooth(mx, my - radius)
+  robot.moveMouseSmooth(mx, my - radius)
 
-	robot.setMouseDelay(11)
-    robot.mouseClick('left')
-	robot.mouseToggle('down')
+  robot.setMouseDelay(11)
+  robot.mouseClick('left')
+  robot.mouseToggle('down')
 
-	for (let rad = 0; rad <= 2 * Math.PI; rad += 0.05) {
-		const tx = mx + radius * Math.cos(rad)
-		const ty = my + radius * Math.sin(rad - Math.PI/2)
-		robot.moveMouse(tx, ty)
-	}
+  for (let rad = Math.PI/2; rad <= 3*Math.PI/2; rad += 0.05) {
+    robot.moveMouse(...adjustCoords(mx + radius * Math.cos(rad), my + radius * Math.sin(rad)))
+  }
 
-	robot.mouseToggle('up')
-    robot.moveMouseSmooth(mx, my)
+  robot.mouseToggle('up')
+  robot.moveMouseSmooth(mx, my)
+
+  return 'success'
 }

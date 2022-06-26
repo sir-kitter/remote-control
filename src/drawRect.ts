@@ -14,6 +14,8 @@ export const drawRect = async (width: number, height: number) => {
   robot.moveMouse(mx, my)
 
   robot.mouseToggle('up')
+
+  return 'success'
 }
 
 export const drawSquare = async (edge: number) => await drawRect(edge, edge)

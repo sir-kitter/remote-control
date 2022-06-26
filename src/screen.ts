@@ -5,7 +5,7 @@ import { adjustCoords } from './utils'
 
 const edge = 200
 
-export const screen = async () => {
+export const capture = async () => {
   const { mx, my } = robot.getMousePos()
   const [ sx, sy ] = adjustCoords(mx - edge/2, my - edge/2)
   const bitmap = robot.screen.capture(sx, sy, edge, edge)
