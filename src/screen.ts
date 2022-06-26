@@ -6,8 +6,8 @@ import { adjustCoords } from './utils'
 const edge = 200
 
 export const capture = async () => {
-  const { mx, my } = robot.getMousePos()
-  const [ sx, sy ] = adjustCoords(mx - edge/2, my - edge/2)
+  const { x, y } = robot.getMousePos()
+  const [ sx, sy ] = adjustCoords(x - edge/2, y - edge/2)
   const bitmap = robot.screen.capture(sx, sy, edge, edge)
   const image = new jimp({ data: bitmap.image, width: edge, height: edge })
 
@@ -15,5 +15,5 @@ export const capture = async () => {
     [ image.bitmap.data[offset], image.bitmap.data[offset + 2] ] = [ image.bitmap.data[offset + 2], image.bitmap.data[offset] ]
   }
 
-  return await image.getBufferAsync(jimp.MIME_PNG)).toString('base64')
+  return (await image.getBufferAsync(jimp.MIME_PNG)).toString('base64')
 }

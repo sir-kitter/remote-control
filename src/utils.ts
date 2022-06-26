@@ -1,7 +1,7 @@
 import robot from 'robotjs'
 
 
-export const adjustCoords = (x, y) => {
+export const adjustCoords = (x: number, y: number): [ number, number ] => {
   const { width, height } = robot.getScreenSize()
   let rx = x < 0 ? 0 : x
   let ry = y < 0 ? 0 : y

@@ -2,16 +2,16 @@ import robot from 'robotjs'
 
 
 export const drawRect = async (width: number, height: number) => {
-  let { mx, my } = robot.getMousePos()
+  let { x, y } = robot.getMousePos()
 
   robot.setMouseDelay(33)
   robot.mouseClick('left')
   robot.mouseToggle('down')
 
-  robot.moveMouse(mx, my + height)
-  robot.moveMouse(mx + width, my + height)
-  robot.moveMouse(mx + width, my)
-  robot.moveMouse(mx, my)
+  robot.moveMouse(x, y + height)
+  robot.moveMouse(x + width, y + height)
+  robot.moveMouse(x + width, y)
+  robot.moveMouse(x, y)
 
   robot.mouseToggle('up')
 

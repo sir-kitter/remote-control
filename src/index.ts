@@ -1,7 +1,7 @@
 import ws from 'ws'
 
-import mouse from './mouse'
-import screen from './screen'
+import * as mouse from './mouse'
+import * as screen from './screen'
 import { drawRect, drawSquare } from './drawRect'
 import { drawCircle } from './drawCircle'
 
@@ -25,7 +25,7 @@ const mapCommands = {
   'prnt_scrn': { f: screen.capture, p: 0, r: true },
 }
 
-const server = new WebSocketServer({ port: PORT })
+const server = new ws.WebSocketServer({ port: port })
 console.log(`server started on port ${port}`)
 
 server.on('close', () => {
@@ -33,17 +33,18 @@ server.on('close', () => {
 })
 .on('connection', (webSocket, req) => {
   console.log(`connection from ${req.socket.remoteAddress}:${req.socket.remotePort}`)
-  const wss = createWebSocketStream(webSocket, { encoding: 'utf8', decodeStrings: false })
+  const wss = ws.createWebSocketStream(webSocket, { encoding: 'utf8', decodeStrings: false })
   wss.on('close', () => console.log('connection closed'))
      .on('data', async data => {
        const [cmd, ...args] = data.split(' ')
        const numberArgs = args.map(Number)
        const cmdInfo = mapCommands[cmd]
        if(cmd in mapCommands && cmdInfo.p == args.length && !numberArgs.some(Number.isNaN)) {
-         const result = cmdInfo.f(...args.map(Number))
-         console.log(`${cmd} == ${JSON.stringify(result)}`)
+         const result = await cmdInfo.f(...args.map(Number))
+//         const resultString = JSON.stringify(result)
+         console.log(`${cmd} == ${result}`)
          if(cmdInfo.r) {
-           wss.write(JSON.stringify(result) + '\0')
+           wss.write(`${cmd} ${result}${'\0'}`)
          }
        } else {
          console.log(`wrong command received: ${data}`)
@@ -52,6 +53,8 @@ server.on('close', () => {
 })
 
 process.on('SIGINT', () => {
-  server.clients.forEach(socket => if (ws.OPEN == socket.readyState) socket.close())
+  server.clients.forEach(socket => {
+    if (ws.OPEN == socket.readyState) socket.close()
+  })
   server.close()
 })
