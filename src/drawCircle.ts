@@ -9,7 +9,6 @@ export const drawCircle = async (radius: number) => {
   robot.moveMouseSmooth(x, y - radius)
 
   robot.setMouseDelay(11)
-  robot.mouseClick('left')
   robot.mouseToggle('down')
 
   for (let rad = -Math.PI/2; rad <= 3*Math.PI/2; rad += 0.05) {

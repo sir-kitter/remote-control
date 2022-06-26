@@ -5,7 +5,6 @@ export const drawRect = async (width: number, height: number) => {
   let { x, y } = robot.getMousePos()
 
   robot.setMouseDelay(33)
-  robot.mouseClick('left')
   robot.mouseToggle('down')
 
   robot.moveMouse(x, y + height)

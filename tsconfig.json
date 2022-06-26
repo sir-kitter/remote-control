@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "esNext",
     "module": "commonjs",
     "baseUrl": "./",
     "outDir": "./dst",

@@ -36,17 +36,21 @@ server.on('close', () => {
   const wss = ws.createWebSocketStream(webSocket, { encoding: 'utf8', decodeStrings: false })
   wss.on('close', () => console.log('connection closed'))
      .on('data', async data => {
-       const [cmd, ...args] = data.split(' ')
-       const numberArgs = args.map(Number)
-       const cmdInfo = mapCommands[cmd]
-       if(cmd in mapCommands && cmdInfo.p == args.length && !numberArgs.some(Number.isNaN)) {
-         const result = await cmdInfo.f(...args.map(Number))
+       try {
+         const [cmd, ...args] = data.split(' ')
+         const numberArgs = args.map(Number)
+         const cmdInfo = mapCommands[cmd]
+         if(cmd in mapCommands && cmdInfo.p == args.length && !numberArgs.some(Number.isNaN)) {
+           const result = await cmdInfo.f(...args.map(Number))
 //         const resultString = JSON.stringify(result)
-         console.log(`${cmd} == ${result}`)
-         if(cmdInfo.r) {
-           wss.write(`${cmd} ${result}${'\0'}`)
+           console.log(`${cmd} == ${result}`)
+           if(cmdInfo.r) {
+             wss.write(`${cmd} ${result}${'\0'}`)
+           }
+         } else {
+           console.log(`wrong command received: ${data}`)
          }
-       } else {
+       } catch(err) {
          console.log(`wrong command received: ${data}`)
        }
      })
